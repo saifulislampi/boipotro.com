@@ -25,7 +25,10 @@ def upload_location(instance, filename):
 
 class Author(models.Model):
     author_name=models.CharField(max_length=255)
-    books=models.ManyToManyField('Book',blank=True)
+    
+    #EXTRA
+    description = models.TextField(null=True)
+    image = models.ImageField(upload_to=upload_location,null=True) ##NEED TO CHANGE
 
     def __unicode__(self):
         return self.author_name
@@ -36,13 +39,22 @@ class Author(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=255)
-    authors = models.ManyToManyField('Author', blank=True)
+    authors = models.ManyToManyField('Author')
     slug = models.SlugField(unique=True)
-    category = models.CharField(max_length=120,blank=True)
-    subject = models.CharField(max_length=120, blank=True)
-    cover = models.ImageField(upload_to=upload_location)
-    book_file = models.FileField(upload_to=upload_location)
+    category = models.CharField(max_length=120,null=True) ##Type In catalog
+    subject = models.CharField(max_length=120, null=True)
+    #Files
+    cover = models.ImageField(upload_to=upload_location,null=True)
+    book_file = models.FileField(upload_to=upload_location,null=True)
     book_type = models.CharField( max_length=120, default="ebook")
+
+    #Times
+    published = models.DateField(auto_now=False, auto_now_add=False, null=True) #will be CHANGE
+    added = models.DateTimeField(auto_now=False, auto_now_add=False, null=True)
+    updated = models.DateTimeField(auto_now=False, auto_now_add=False, null=True)
+    #Price
+    price = models.DecimalField(decimal_places=2, max_digits=20, null=True)
+    free = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.title
