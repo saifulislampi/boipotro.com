@@ -8,7 +8,8 @@ from django.utils import timezone
 
 from django.utils.text import slugify
 
-def upload_location(instance, filename):
+def upload_location(instance, filename): #Need major changes
+    
     #filebase, extension = filename.split(".")
     #return "%s/%s.%s" %(instance.id, instance.id, extension)
     # PostModel = instance.__class__
