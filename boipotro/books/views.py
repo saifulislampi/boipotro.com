@@ -8,7 +8,10 @@ def home(request):
     return HttpResponse("<h1>This page has not been updated yet. Try some next level url. </h1>")
 
 def temp_home(request):
-    return HttpResponse("<h1> Temporary Home</h1>")
+    context={
+        
+    }
+    return render(request, "index.html", context)
 
 
 def all_books(request):
