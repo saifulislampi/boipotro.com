@@ -25,7 +25,7 @@ def upload_location(instance, filename):
 
 class Author(models.Model):
     author_name=models.CharField(max_length=255)
-    
+
     #EXTRA
     description = models.TextField(null=True)
     image = models.ImageField(upload_to=upload_location,null=True) ##NEED TO CHANGE
@@ -39,21 +39,21 @@ class Author(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=255)
-    authors = models.ManyToManyField('Author')
+    authors = models.ManyToManyField('Author', blank=True)
     slug = models.SlugField(unique=True)
-    category = models.CharField(max_length=120,null=True) ##Type In catalog
-    subject = models.CharField(max_length=120, null=True)
+    category = models.CharField(max_length=120,null=True,blank=True) ##Type In catalog
+    subject = models.CharField(max_length=120, null=True,blank=True)
     #Files
-    cover = models.ImageField(upload_to=upload_location,null=True)
-    book_file = models.FileField(upload_to=upload_location,null=True)
-    book_type = models.CharField( max_length=120, default="ebook")
+    cover = models.ImageField(upload_to=upload_location,null=True,blank=True)
+    book_file = models.FileField(upload_to=upload_location,null=True,blank=True)
+    book_type = models.CharField( max_length=120, default="ebook",blank=True)
 
     #Times
-    published = models.DateField(auto_now=False, auto_now_add=False, null=True) #will be CHANGE
-    added = models.DateTimeField(auto_now=False, auto_now_add=False, null=True)
-    updated = models.DateTimeField(auto_now=False, auto_now_add=False, null=True)
+    published = models.DateField(auto_now=False, auto_now_add=False, null=True,blank=True) #will be CHANGE
+    added = models.DateTimeField(auto_now=False, auto_now_add=False, null=True,blank=True)
+    updated = models.DateTimeField(auto_now=False, auto_now_add=False, null=True,blank=True)
     #Price
-    price = models.DecimalField(decimal_places=2, max_digits=20, null=True)
+    price = models.DecimalField(decimal_places=2, max_digits=20, null=True,blank=True)
     free = models.BooleanField(default=False)
 
     def __unicode__(self):
