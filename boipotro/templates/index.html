@@ -5,5 +5,10 @@
 
 {% block content %}
     <h1>Bootstrap Testing</h1>
-    
+    {% if instance.cover %}
+        <img src='{{ instance.cover.url }}' class='img-responsive' />
+        <a href="{{ instance.book_file.url }}">download</a>
+    {% endif %}
+    <!-- মহাপৃথিবী/মহপথব_YTVTHG2.epub -->
+
 {% endblock %}

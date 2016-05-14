@@ -4,7 +4,7 @@ from django.contrib import admin
 from .models import Book, Author
 
 class BookModelAdmin(admin.ModelAdmin):
-	list_display = ["title","category"]
+	list_display = ["id","title","category"]
 	list_filter = ["category", "authors","price"]
 
 	class Meta:

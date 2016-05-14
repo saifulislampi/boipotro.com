@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 from django.conf import settings
@@ -6,23 +7,39 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.utils import timezone
 
-from django.utils.text import slugify
+# from django.utils.text import slugify
 
-def upload_location(instance, filename): #Need major changes
-    
-    #filebase, extension = filename.split(".")
-    #return "%s/%s.%s" %(instance.id, instance.id, extension)
-    # PostModel = instance.__class__
-    # new_id = PostModel.objects.order_by("id").last().id + 1
-    new_id=""
-    """
-    instance.__class__ gets the model Post. We must use this method because the model is defined below.
-    Then create a queryset ordered by the "id"s of each object,
-    Then we get the last object in the queryset with `.last()`
-    Which will give us the most recently created Model instance
-    We add 1 to it, so we get what should be the same id as the the post we are creating.
-    """
-    return "%s/%s" %(new_id, filename)
+#A function for creating simple unicode slug
+def sslugify(line):
+    ret="";
+    temp= line.strip()
+    for i in range(0,len(temp)):
+        if temp[i]==' ':
+            ret=ret+'-'
+        else:
+            ret=ret+temp[i]
+
+    return ret
+
+
+
+
+def upload_location(instance, filename):
+
+    filebase, extension = filename.split(".")
+    return "%s/%s.%s" %(instance.slug, instance.slug,extension)
+
+    # BookModel = instance.__class__
+    # new_id = BookModel.objects.order_by("id").last().id + 1
+    # new_id=""
+    # """
+    # instance.__class__ gets the model Post. We must use this method because the model is defined below.
+    # Then create a queryset ordered by the "id"s of each object,
+    # Then we get the last object in the queryset with `.last()`
+    # Which will give us the most recently created Model instance
+    # We add 1 to it, so we get what should be the same id as the the post we are creating.
+    # """
+    # return "%s/%s" %(new_id, filename)
 
 class Author(models.Model):
     author_name=models.CharField(max_length=255)
@@ -41,7 +58,7 @@ class Author(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=255)
     authors = models.ManyToManyField('Author', blank=True)
-    slug = models.SlugField(unique=True)
+    slug = models.CharField(unique=True, max_length=255)
     category = models.CharField(max_length=120,null=True,blank=True) ##Type In catalog
     subject = models.CharField(max_length=120, null=True,blank=True)
     #Files
@@ -62,3 +79,24 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+
+
+def create_slug(instance, new_slug=None):
+    slug = sslugify(instance.title)
+    if new_slug is not None:
+        slug = new_slug
+    qs = Book.objects.filter(slug=slug).order_by("-id")
+    exists = qs.exists()
+    if exists:
+        new_slug = "%s-%s" %(slug, qs.first().id)
+        return create_slug(instance, new_slug=new_slug)
+    return slug
+
+
+def pre_save_book_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = create_slug(instance)
+
+
+pre_save.connect(pre_save_book_receiver, sender=Book)
