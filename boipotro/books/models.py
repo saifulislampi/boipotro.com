@@ -29,17 +29,7 @@ def upload_location(instance, filename):
     filebase, extension = filename.split(".")
     return "%s/%s.%s" %(instance.slug, instance.slug,extension)
 
-    # BookModel = instance.__class__
-    # new_id = BookModel.objects.order_by("id").last().id + 1
-    # new_id=""
-    # """
-    # instance.__class__ gets the model Post. We must use this method because the model is defined below.
-    # Then create a queryset ordered by the "id"s of each object,
-    # Then we get the last object in the queryset with `.last()`
-    # Which will give us the most recently created Model instance
-    # We add 1 to it, so we get what should be the same id as the the post we are creating.
-    # """
-    # return "%s/%s" %(new_id, filename)
+
 
 class Author(models.Model):
     author_name=models.CharField(max_length=255)
@@ -71,7 +61,7 @@ class Book(models.Model):
     added = models.DateTimeField(auto_now=False, auto_now_add=False, null=True,blank=True)
     updated = models.DateTimeField(auto_now=False, auto_now_add=False, null=True,blank=True)
     #Price
-    price = models.DecimalField(decimal_places=2, max_digits=20, null=True,blank=True)
+    price = models.DecimalField(decimal_places=2, max_digits=20, null=True,blank=True, default=0.00)
     free = models.BooleanField(default=False)
 
     def __unicode__(self):
@@ -79,6 +69,9 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_price(self):
+        return self.price
 
 
 

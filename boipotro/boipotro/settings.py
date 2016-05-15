@@ -42,6 +42,8 @@ INSTALLED_APPS = [
 
     #My Apps
     'books',
+    'carts',
+    
 ]
 
 MIDDLEWARE_CLASSES = [
