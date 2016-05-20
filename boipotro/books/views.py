@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Book,Author
+from .forms import UploadBookFile,ConfirmBookUpload
 # Create your views here.
 
 
@@ -24,5 +25,19 @@ def add_books(request):
         return render(request, "books/add-books.html", context)
 
     else:
-        context["msg"]="You are permitted to see the content of this page"
-        return render(request, "books/add-books.html", context)
+        if "upload" in request.POST:
+            confirm_form=ConfirmBookUpload()
+            context["confirm_form"]=confirm_form
+            context['confirm_upload']=True
+            context["msg"]="You are permitted to see the content of this page and you clicked upload"
+            return render(request, "books/add-books.html", context)
+
+        elif "confirm" in request.POST:
+            context["msg"]="You are permitted to see the content of this page and you clicked confirm"
+            return render(request, "books/add-books.html", context)
+
+        else:
+            form=UploadBookFile()
+            context["form"]=form
+            context["file_upload"]=True
+            return render(request, "books/add-books.html", context)

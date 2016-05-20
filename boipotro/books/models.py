@@ -35,8 +35,8 @@ class Author(models.Model):
     author_name=models.CharField(max_length=255)
 
     #EXTRA
-    description = models.TextField(null=True)
-    image = models.ImageField(upload_to=upload_location,null=True) ##NEED TO CHANGE
+    description = models.TextField(null=True,blank=True)
+    image = models.ImageField(upload_to=upload_location,null=True,blank=True) ##NEED TO CHANGE
 
     def __unicode__(self):
         return self.author_name

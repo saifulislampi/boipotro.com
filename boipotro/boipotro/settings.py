@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #3rd Party APPS
+    'crispy_forms',
 
     #My Apps
     'books',
@@ -136,3 +137,7 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn")
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media_cdn")
+
+
+# CRISPY FORM TAGs SETTINGs
+CRISPY_TEMPLATE_PACK="bootstrap3"
