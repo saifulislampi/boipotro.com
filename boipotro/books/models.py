@@ -74,6 +74,9 @@ class Book(models.Model):
     def get_price(self):
         return self.price
 
+    def get_absolute_url(self):
+        return reverse("books:detail", kwargs={"slug": self.slug})
+
 
 
 class BookList(models.Model):

@@ -6,8 +6,14 @@
 {% block content %}
     <h2>নতুন যোগ হয়ছে </h2>
     <hr>
-    <h2>জনপ্রিয়</h2>
+    {% for book in new_addition %}
+        <a href="{{book.get_absolute_url}}">{{book.title}}</a>
+        <br>
+    {% endfor %}
 
-    
+    <h2>জনপ্রিয়</h2>
+    <hr>
+
+
 
 {% endblock %}

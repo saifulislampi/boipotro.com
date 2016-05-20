@@ -10,15 +10,27 @@ from django.conf import settings
 
 
 def home(request):
-    context={
+    new_addition=Book.objects.all().order_by("-id")[:8]
 
+    context={
+        "new_addition":new_addition,
     }
     return render(request, "index.html", context)
 
 
-
 def all_books(request):
     return HttpResponse("<h1>This page is supposed to show all books available in the databases. </h1>")
+
+
+def book_detail(request,slug=None):
+
+    book = get_object_or_404(Book,slug=slug)
+    context={
+        "book":book,
+
+    }
+
+    return render(request, "books/book-detail.html", context)
 
 
 
@@ -46,7 +58,8 @@ def add_books(request):
             #SET Info
             instance.title=book_info['title']
             instance.category=book_info['type']
-            instance.published=book_info['pubdate']
+            # if book_info['pubdate']:
+            #     instance.published=book_info['pubdate']
             if len(book_info['subject']):
                 instance.subject=book_info['subject'][0]
 
@@ -81,6 +94,9 @@ def add_books(request):
             instance.cover=cover
             instance.save();
 
+            upload_form=BookUploadForm(request.POST, request.FILES)
+            context["upload_form"]=upload_form
+            context["file_upload"]=True
             context["msg"]="You just uploaded "+instance.title+" by "+author_list[0]
             return render(request, "books/add-books.html", context)
 

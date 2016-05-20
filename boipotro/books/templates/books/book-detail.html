@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %} {{book.title}} | {{ block.super }} {% endblock %}
+
+{% block content %}
+    <br>
+    <div class="col-md-4 col-md-offset-2">
+        <!-- <h2 align="center">{{book.title}}</h2> -->
+        <img src="{{book.cover.url}}" style="margin-right: 10px; box-shadow: 3px 3px 20px #202020;" height="318px" width="225px">
+
+    </div>
+
+    <div class="col-md-6">
+        <h2>{{book.title}}</h2>
+        <b>লেখকঃ</b>
+        {% for author in book.authors.all %}
+            <a href="#">{{author.author_name}}</a>
+        {% endfor %}
+        <br>
+        <b>ধরণঃ</b> <a href="#">{{book.category}}</a>
+
+        {% if book.subject %}
+            <br>
+            <b>বিষয়ঃ</b> <a href="#">{{book.subject}}</a>
+        {% endif %}
+
+
+
+    </div>
+
+{% endblock %}
