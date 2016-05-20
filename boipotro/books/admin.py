@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Book, Author
+from .models import Book, Author, BookList
 
 class BookModelAdmin(admin.ModelAdmin):
 	list_display = ["id","title","category"]
@@ -13,3 +13,4 @@ class BookModelAdmin(admin.ModelAdmin):
 
 admin.site.register(Book,BookModelAdmin)
 admin.site.register(Author)
+admin.site.register(BookList)

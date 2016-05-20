@@ -75,6 +75,14 @@ class Book(models.Model):
 
 
 
+class BookList(models.Model):
+    list_name = models.CharField(max_length=255)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True) ##It should not be blank
+    books = models.ManyToManyField(Book)
+
+
+
+
 def create_slug(instance, new_slug=None):
     slug = sslugify(instance.title)
     if new_slug is not None:

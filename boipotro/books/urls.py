@@ -4,15 +4,16 @@ from django.conf.urls import url
 from .views import (
         home,
         all_books,
-        temp_home,
+        add_books,
 
     )
 
 
 urlpatterns = [
 
-    url(r'^$',temp_home),
+    url(r'^$',home),
     url(r'^all$', all_books, name='all_books'),
+    url(r'^add$', add_books, name='add_books'),
 
 
 ]
