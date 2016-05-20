@@ -9,9 +9,9 @@
     {% if file_upload %}
 
         <div class="col-md-6">
-            <form role="form" class="" action="" method="post">
+            <form role="form" action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{form|crispy}}
+                {{upload_form|crispy}}
                 <input class="btn btn-primary" type="submit" name="upload" value="Upload File">
             </form>
         </div>
@@ -19,9 +19,9 @@
     {% endif %}
 
     {% if confirm_upload %}
-
+    
         <div class="col-md-6">
-            <form role="form" class="" action="" method="post">
+            <form role="form" action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{confirm_form|crispy}}
                 <input class="btn btn-primary" type="submit" name="confirm" value="Confirm">

@@ -53,8 +53,8 @@ class Book(models.Model):
     subject = models.CharField(max_length=120, null=True,blank=True)
     #Files
     cover = models.ImageField(upload_to=upload_location,null=True,blank=True)
-    book_file = models.FileField(upload_to=upload_location,null=True,blank=True)
-    book_type = models.CharField( max_length=120, default="ebook",blank=True)
+    book_file = models.FileField(upload_to=upload_location)
+    book_type = models.CharField( max_length=120, default="Ebook",blank=True)
 
     #Times
     published = models.DateField(auto_now=False, auto_now_add=False, null=True,blank=True) #will be CHANGE
@@ -63,6 +63,7 @@ class Book(models.Model):
     #Price
     price = models.DecimalField(decimal_places=2, max_digits=20, null=True,blank=True, default=0.00)
     free = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.title
