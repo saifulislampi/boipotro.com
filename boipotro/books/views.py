@@ -5,7 +5,10 @@ from .models import Book,Author
 
 
 def home(request):
-    return HttpResponse("<h1>This page has not been updated yet. Try some next level url. </h1>")
+    context={
+        
+    }
+    return render(request, "index.html", context)
 
 def temp_home(request):
     instance=Book.objects.get(id=8)

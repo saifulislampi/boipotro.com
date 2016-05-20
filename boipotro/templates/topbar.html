@@ -1,0 +1,56 @@
+{% load staticfiles %}
+
+<div class="container">
+    <div class="row">
+            <br>
+            <div class="">
+                <div id="logo" class="col-md-3">
+                    <h2>বইপত্র।কম</h2>
+                </div>
+
+                <br>
+
+    		    <div class="input-group col-md-6">
+                    <input type="text" class="form-control" name="search" placeholder="বইপত্রে খুঁজুন ... ">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                </div>
+            </div>
+
+            <br>
+
+            <nav class="navbar navbar-default">
+              <div class="container-fluid">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav-bar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <!-- <a class="navbar-brand" href="#">বইপত্র</a> -->
+                  <a class="navbar-brand" href="/">বইপত্র।কম </a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="main-nav-bar">
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a  href="#">প্রথম পাতা</a></li>
+                    <li><a  href="#">সকল বই</a></li>
+                    <li><a data-toggle="modal" href="#">লেখক</a></li>
+                  </ul>
+
+                  <ul class="nav navbar-nav navbar-right">
+                      <li>
+                          <a href='#'><span class="glyphicon glyphicon-shopping-cart"></span> <span id="cart-count-badge" class='badge'>0</span></a>
+                    </li>
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span>সাইন আপ </a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> লগ ইন </a></li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+
+    </div>
+
+
+</div>
