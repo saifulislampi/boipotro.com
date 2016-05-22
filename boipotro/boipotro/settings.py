@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     #3rd Party APPS
     'crispy_forms',
+    'star_ratings',
 
     #My Apps
     'books',

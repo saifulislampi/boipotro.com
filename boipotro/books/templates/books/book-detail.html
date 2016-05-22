@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load ratings %}
 
 {% block title %} {{book.title}} | {{ block.super }} {% endblock %}
 
@@ -47,6 +48,9 @@
             <a href="{{book.book_file.url}}" type="button" class="btn btn-default">Downlaod</a>
         {% endif %}
 
+        <br>
+        {% ratings book %}
+
         <!-- f or testing scroll-->
         <br> <br>    <br> <br>    <br> <br>    <br> <br>    <br> <br>    <br> <br>    <br> <br>
     </div>
@@ -71,17 +75,9 @@
             data: formData,
             success: function(data) {
                 console.log(data.flash_message);
-                 $("#cart-count-badge").notify(data.flash_message,{position:"bottom right" ,className: "info"});
-                //  $.notify(data.flash_message,"info");
-
-                // $("#notification").fadeIn("slow").html(data.flash_message).delay(1000);
-                // $("#notification").fadeOut("slow");
-                // $(".dismiss").click(function(){
-                //     $("#notification").fadeOut("slow");
-                // });
-
-
                 updateCartItemCount();
+                $("#cart-count-badge").notify(data.flash_message,{position:"bottom right" ,className: "info"});
+
             },
             error: function(response, error) {
                 // console.log(response)

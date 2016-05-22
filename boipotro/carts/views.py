@@ -96,8 +96,15 @@ class CartView(SingleObjectMixin, View):
                 cart_item.quantity = qty
                 cart_item.save()
             if not request.is_ajax():
-                return HttpResponseRedirect(reverse("carts:cart"))
+                # return HttpResponseRedirect(reverse("carts:cart"))
 				#return cart_item.cart.get_absolute_url()
+                context = {
+                    "object": self.get_object(),
+                    "flash_message":flash_message,
+                }
+                template = self.template_name
+                return render(request, template, context)
+
 
         if request.is_ajax():
             try:

@@ -18,6 +18,7 @@
                     <th>বইয়ের নাম</th>
                     <th>লেখকের নাম</th>
                     <th>মূল্য</th>
+                    <td></td>
                 </tr>
                 {% for book in object.cartitem_set.all %}
                     <tr>
@@ -32,6 +33,10 @@
                         <td>
                             {{book.item.get_price}}
                         </td>
+
+                        <td>
+                            <a href="{{book.remove}}">X</a>
+                        </td>
                     </tr>
                 {% endfor %}
 
@@ -39,23 +44,26 @@
                     <td></td>
                     <td class="text-right"><b>ভ্যাটবাদে মূল্যঃ </b></td>
 	                <td><span id='subtotal'>{{ object.subtotal }}</span></td>
+                    <td></td>
                 </tr>
 
                 <tr>
                     <td></td>
                     <td class="text-right"><b>ভ্যাটঃ</b></td>
 	                <td><span id='subtotal'>{{ object.tax_total }}</span></td>
+                    <td></td>
                 </tr>
 
                 <tr>
                     <td></td>
                     <td class="text-right"><b> মোটঃ </b></td>
-                  <td><span id='subtotal'>{{ object.total }}</span></td>
+                    <td><span id='subtotal'>{{ object.total }}</span></td>
+                    <td></td>
                 </tr>
 
 
             <tr>
-	               <td colspan='3' class=''><a class='btn btn-warning' href="#">Checkout </a></td>
+	               <td colspan='4' class='text-right'><a class='btn btn-warning' href="#">Checkout </a></td>
             </tr>
 
             </table>
@@ -66,3 +74,10 @@
 
 
 {% endblock %}
+<script>
+        {% block jquery %}
+            var message="{{flash_message}}"
+            $("#cart-count-badge").notify(message,{position:"bottom right" ,className: "info"});
+
+        {% endblock %}
+</script>

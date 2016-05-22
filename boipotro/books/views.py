@@ -38,7 +38,7 @@ def book_detail(request,slug=None):
 @login_required #Deserves a better look
 def add_books(request):
     context={}
-    if not request.user.is_staff:
+    if not request.user.is_superuser:
         context["msg"]="You are not permitted to see the content of this page"
         return render(request, "books/add-books.html", context)
 

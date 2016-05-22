@@ -85,6 +85,13 @@ class Book(models.Model):
     def get_absolute_url(self):
         return reverse("books:detail", kwargs={"slug": self.slug})
 
+    def add_to_cart(self):
+        return "%s?item=%s&qty=1" %(reverse("carts:cart"), self.id)
+
+    def remove_from_cart(self):
+        return "%s?item=%s&qty=1&delete=True" %(reverse("carts:cart"), self.id)
+
+
 
 
 class BookList(models.Model):

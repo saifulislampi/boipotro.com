@@ -24,8 +24,8 @@ class CartItem(models.Model):
     def __str__(self): #python 3
         return self.item.title
 
-	# def remove(self): #Need to implement later
-	# 	return self.item.remove_from_cart()
+    def remove(self):
+        return self.item.remove_from_cart()
 
 
 def cart_item_pre_save_receiver(sender, instance, *args, **kwargs):

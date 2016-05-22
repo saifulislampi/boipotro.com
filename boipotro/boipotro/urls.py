@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^books/', include("books.urls",namespace='books')),
     url(r'^carts/', include("carts.urls",namespace='carts')),
+    url(r'^ratings/', include('star_ratings.urls', namespace='ratings', app_name='ratings')),
 ]
 
 if settings.DEBUG:
