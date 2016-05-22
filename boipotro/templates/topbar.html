@@ -40,7 +40,7 @@
                   </ul>
 
                   <ul class="nav navbar-nav navbar-right">
-                      <li>
+                      <li id="cart-icon">
                           <a href='{% url "carts:cart" %}'><span class="glyphicon glyphicon-shopping-cart"></span> <span id="cart-count-badge" class='badge'>{{request.session.cart_item_count}}</span></a>
                       </li>
 
@@ -79,19 +79,6 @@
 
 <script type="text/javascript">
 
-         var navpos = $('#nav_bar').offset();
-
-        $(window).bind('scroll', function () {
-            if ($(window).scrollTop() > navpos.top) {
-                 console.log($(window).scrollTop())
-                // console.log("Scrolled down");
-                $('#nav_bar').addClass('navbar-fixed-top');
-            }
-            if ($(window).scrollTop() <navpos.top+1){
-                 console.log($(window).scrollTop())
-                // console.log("Scrolled up");
-                $('#nav_bar').removeClass('navbar-fixed-top');
-            }
-        });
+        
 
 </script>

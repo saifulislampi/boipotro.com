@@ -71,8 +71,8 @@
             data: formData,
             success: function(data) {
                 console.log(data.flash_message);
-
-                $.bootstrapGrowl("My message");
+                 $("#cart-count-badge").notify(data.flash_message,{position:"bottom right" ,className: "info"});
+                //  $.notify(data.flash_message,"info");
 
                 // $("#notification").fadeIn("slow").html(data.flash_message).delay(1000);
                 // $("#notification").fadeOut("slow");

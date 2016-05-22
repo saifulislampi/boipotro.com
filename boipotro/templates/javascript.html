@@ -1,9 +1,8 @@
 {% load staticfiles %}
 
 <script  src="{% static "js/jquery-2.2.4.min.js" %}" type="text/javascript"></script>
+<!-- <script  src="{% static "js/notify.min.js" %}" type="text/javascript"></script> -->
 <script  src="{% static "js/notify.js" %}" type="text/javascript"></script>
-<script  src="{% static "js/notify.min.js" %}" type="text/javascript"></script>
-<script  src="{% static "js/jquery.bootstrap-growl.min.js" %}" type="text/javascript"></script>
 <script  src="{% static "bootstrap/js/bootstrap.min.js" %}" type="text/javascript"></script>
 
 <script>
@@ -34,6 +33,22 @@
 
      	updateCartItemCount()
      })
+
+
+     var navpos = $('#nav_bar').offset();
+
+     $(window).bind('scroll', function () {
+         if ($(window).scrollTop() > navpos.top) {
+              console.log($(window).scrollTop())
+             // console.log("Scrolled down");
+             $('#nav_bar').addClass('navbar-fixed-top');
+         }
+         if ($(window).scrollTop() <navpos.top+1){
+              console.log($(window).scrollTop())
+             // console.log("Scrolled up");
+             $('#nav_bar').removeClass('navbar-fixed-top');
+         }
+     });
 
 
 </script>
