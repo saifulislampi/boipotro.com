@@ -5,11 +5,64 @@
 
 {% block content %}
 
-    <h2>Cart view has not been implemented yet!</h2>
-    
-    {% if msg %}
+    <div class="row main-content">
+        {% if object.cartitem_set.count < 1 %}
+            <h2> আপনার কার্ট শূন্য।</h2>
 
-    {% endif %}
+        {% else %}
+
+        <div class='col-sm-8 col-sm-offset-2'>
+            <h1 >আপনার কার্ট</h1>
+            <table class="table">
+                <tr>
+                    <th>বইয়ের নাম</th>
+                    <th>লেখকের নাম</th>
+                    <th>মূল্য</th>
+                </tr>
+                {% for book in object.cartitem_set.all %}
+                    <tr>
+                        <td>
+                            <a href="{{book.item.get_absolute_url}}">{{book.item.title}}</a>
+                        </td>
+                        <td>
+                            {% for author in book.item.authors.all %}
+                                <a href="#">{{author.author_name}}</a>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {{book.item.get_price}}
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                <tr>
+                    <td></td>
+                    <td class="text-right"><b>ভ্যাটবাদে মূল্যঃ </b></td>
+	                <td><span id='subtotal'>{{ object.subtotal }}</span></td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td class="text-right"><b>ভ্যাটঃ</b></td>
+	                <td><span id='subtotal'>{{ object.tax_total }}</span></td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td class="text-right"><b> মোটঃ </b></td>
+                  <td><span id='subtotal'>{{ object.total }}</span></td>
+                </tr>
+
+
+            <tr>
+	               <td colspan='3' class=''><a class='btn btn-warning' href="#">Checkout </a></td>
+            </tr>
+
+            </table>
+
+        <div>
+        {% endif %}
+    </div>
 
 
 {% endblock %}
