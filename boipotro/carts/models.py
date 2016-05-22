@@ -9,7 +9,7 @@ from django.db.models.signals import pre_save, post_save, post_delete
 
 
 from books.models import Book
-# Create your models here.
+# Models for Cart
 
 
 class CartItem(models.Model):
@@ -24,13 +24,13 @@ class CartItem(models.Model):
     def __str__(self): #python 3
         return self.item.title
 
-	# def remove(self):
+	# def remove(self): #Need to implement later
 	# 	return self.item.remove_from_cart()
 
 
 def cart_item_pre_save_receiver(sender, instance, *args, **kwargs):
     qty = instance.quantity
-    if qty >= 1:
+    if int(qty) >= 1:
         price = instance.item.get_price()
         line_item_total = Decimal(qty) * Decimal(price)
         instance.line_item_total = line_item_total

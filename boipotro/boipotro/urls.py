@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^$', home, name='home'), #This will be our home page
     url(r'^admin/', admin.site.urls),
     url(r'^books/', include("books.urls",namespace='books')),
+    url(r'^carts/', include("carts.urls",namespace='carts')),
 ]
 
 if settings.DEBUG:

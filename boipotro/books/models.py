@@ -7,6 +7,9 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.utils import timezone
 
+#MY Custom Libraries
+from .convert_to_bangla import convert_number_in_bangla
+
 # from django.utils.text import slugify
 
 #A function for creating simple unicode slug
@@ -72,7 +75,12 @@ class Book(models.Model):
         return self.title
 
     def get_price(self):
+        if self.free or self.price==None:
+            return 0;
         return self.price
+
+    def get_price_in_bn(self):
+        return convert_number_in_bangla(self.get_price())
 
     def get_absolute_url(self):
         return reverse("books:detail", kwargs={"slug": self.slug})

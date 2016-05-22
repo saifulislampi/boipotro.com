@@ -20,7 +20,7 @@
 
             <br>
 
-            <nav class="navbar navbar-default">
+            <nav id="nav_bar" class="navbar navbar-default navbar-static-top">
               <div class="container-fluid">
                 <div class="navbar-header">
                   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav-bar">
@@ -41,14 +41,57 @@
 
                   <ul class="nav navbar-nav navbar-right">
                       <li>
-                          <a href='#'><span class="glyphicon glyphicon-shopping-cart"></span> <span id="cart-count-badge" class='badge'>0</span></a>
-                    </li>
-                    <li><a href="#"><span class="glyphicon glyphicon-user"></span>সাইন আপ </a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> লগ ইন </a></li>
-                  </ul>
+                          <a href='{% url "carts:cart" %}'><span class="glyphicon glyphicon-shopping-cart"></span> <span id="cart-count-badge" class='badge'>{{request.session.cart_item_count}}</span></a>
+                      </li>
+
+                      <li><a href="#"><span class="glyphicon glyphicon-user"></span>সাইন আপ </a></li>
+
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-log-in"></span> লগ ইন </a>
+
+                        <!-- What people will see in login dropdown -->
+                            <ul class="dropdown-menu" role="menu" style="padding: 15px;">
+                                <form class='navbar-form' method='POST' action=''>{% csrf_token %}
+                                    <div class='form-group'>
+                                        <input  style="margin-bottom: 15px;" type='text' class='form-control' name='username' placeholder='ইউজারনেম' />
+                                    </div>
+                                    <div class='form-group'>
+                                        <input style="margin-bottom: 15px;" type='password' class='form-control' name='password' placeholder='পাসওয়ার্ড' />
+                                    </div>
+                                    <button style="margin-bottom: 15px;"  type='submit' class='btn btn-primary btn-block'>লগ ইন</button>
+                                </form>
+                                <p class='text-center'><a href=''>পাসওয়ার্ড ভুলে গেছেন?</a></p>
+                            </ul>
+
+                        </li>
+
+                    </ul> <!-- end of navbar menus -->
+
                 </div>
+
               </div>
+
             </nav>
 
 
 </div>
+
+
+<script type="text/javascript">
+
+         var navpos = $('#nav_bar').offset();
+
+        $(window).bind('scroll', function () {
+            if ($(window).scrollTop() > navpos.top) {
+                 console.log($(window).scrollTop())
+                // console.log("Scrolled down");
+                $('#nav_bar').addClass('navbar-fixed-top');
+            }
+            if ($(window).scrollTop() <navpos.top+1){
+                 console.log($(window).scrollTop())
+                // console.log("Scrolled up");
+                $('#nav_bar').removeClass('navbar-fixed-top');
+            }
+        });
+
+</script>

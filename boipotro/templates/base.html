@@ -24,14 +24,18 @@
         </style>
 
         {% block javascripts %}
-            <script src="{% static "js/jquery.min.js" %}" type="text/javascript"></script>
-            <script src="{% static "bootstrap/js/bootstrap.min.js" %}" type="text/javascript"></script>
+
+            
         {% endblock %}
 
         {% block extra_head %}{% endblock %}
 
     </head>
     <body>
+        <div id="notification" style="display: none;">
+            <span class="dismiss"><a title="dismiss this notification">x</a></span>
+        </div>
+
         {% include 'topbar.html' %}
 
         <div class="container">
@@ -42,12 +46,15 @@
 
         </div>
 
-        <!-- {% include "javascript.html" %} -->
+        <!-- Contains javascript functions needed for rest of the website that extends base.html -->
 
+        {% include "javascript.html" %}
 
         <script>
             $(document).ready(function(){
                 {% block jquery %}
+
+
                 {% endblock %}
             });
         </script>

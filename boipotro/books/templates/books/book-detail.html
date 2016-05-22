@@ -3,8 +3,10 @@
 
 {% block title %} {{book.title}} | {{ block.super }} {% endblock %}
 
+
 {% block content %}
     <br>
+
     <div class="col-md-4 col-md-offset-2">
         <!-- <h2 align="center">{{book.title}}</h2> -->
         <img src="{{book.cover.url}}" style="margin-right: 10px; box-shadow: 3px 3px 20px #202020;" height="318px" width="225px">
@@ -12,6 +14,9 @@
     </div>
 
     <div class="col-md-6">
+        <p id='jquery-message' class='lead'></p>
+
+
         <h2>{{book.title}}</h2>
         <b>লেখকঃ</b>
         {% for author in book.authors.all %}
@@ -19,14 +24,73 @@
         {% endfor %}
         <br>
         <b>ধরণঃ</b> <a href="#">{{book.category}}</a>
-
+        <br>
         {% if book.subject %}
-            <br>
             <b>বিষয়ঃ</b> <a href="#">{{book.subject}}</a>
+            <br>
         {% endif %}
 
+        <b>মূল্যঃ </b> {{book.get_price_in_bn}} টাকা মাত্র ।
+        <br> <br>
+        {% if not book.free %}
+            <form id='add-form' method='GET' action="">
 
+                <input type="hidden" name='item' value='{{ book.id }}' />
 
+                <input class='form-control' type='hidden' name='qty' value='1' />
+
+                <input id='submit-btn' type='submit' value='Add to Cart' class='btn btn-default' />
+            </form>
+        {% endif %}
+
+        {% if book.free %}
+            <a href="{{book.book_file.url}}" type="button" class="btn btn-default">Downlaod</a>
+        {% endif %}
+
+        <!-- f or testing scroll-->
+        <br> <br>    <br> <br>    <br> <br>    <br> <br>    <br> <br>    <br> <br>    <br> <br>
     </div>
 
+
+
 {% endblock %}
+
+
+<script>
+{% block jquery %}
+// ajax add to cart
+
+    $("#submit-btn").click(function(event){
+        event.preventDefault();
+        var formData = $("#add-form").serialize();
+        console.log(formData);
+        console.log("Submit Button Clicked!");
+        $.ajax({
+            type: "GET", // "POST"
+            url: "{% url 'carts:cart' %}",
+            data: formData,
+            success: function(data) {
+                console.log(data.flash_message);
+
+                $.bootstrapGrowl("My message");
+
+                // $("#notification").fadeIn("slow").html(data.flash_message).delay(1000);
+                // $("#notification").fadeOut("slow");
+                // $(".dismiss").click(function(){
+                //     $("#notification").fadeOut("slow");
+                // });
+
+
+                updateCartItemCount();
+            },
+            error: function(response, error) {
+                // console.log(response)
+                // console.log(error)
+                $("#add-form").submit()
+            }
+        })
+    })
+
+{% endblock %}
+
+</script>

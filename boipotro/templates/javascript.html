@@ -1,0 +1,39 @@
+{% load staticfiles %}
+
+<script  src="{% static "js/jquery-2.2.4.min.js" %}" type="text/javascript"></script>
+<script  src="{% static "js/notify.js" %}" type="text/javascript"></script>
+<script  src="{% static "js/notify.min.js" %}" type="text/javascript"></script>
+<script  src="{% static "js/jquery.bootstrap-growl.min.js" %}" type="text/javascript"></script>
+<script  src="{% static "bootstrap/js/bootstrap.min.js" %}" type="text/javascript"></script>
+
+<script>
+
+     function updateCartItemCount(){
+     	var badge = $("#cart-count-badge");
+        console.log("Updating cart item count");
+
+     	$.ajax({
+     		type: "GET",
+     		url: "{% url 'carts:item_count' %}",
+     		success: function(data){
+     			badge.text(data.count);
+     			console.log(data.count);
+                console.log("Successfully updated cart item");
+
+     		},
+     		error: function(response, error) {
+     			console.log(response)
+     			console.log(error);
+     		}
+
+     	})
+
+     }
+
+     $(document).ready(function(){
+
+     	updateCartItemCount()
+     })
+
+
+</script>

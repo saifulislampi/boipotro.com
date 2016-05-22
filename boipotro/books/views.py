@@ -6,6 +6,7 @@ from .forms import BookUploadForm
 from .epubscraper import book_keeper,imscrap
 import os
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -34,14 +35,14 @@ def book_detail(request,slug=None):
 
 
 
-
+@login_required #Deserves a better look
 def add_books(request):
     context={}
     if not request.user.is_staff:
         context["msg"]="You are not permitted to see the content of this page"
         return render(request, "books/add-books.html", context)
 
-    elif request.method=="POST":
+    if request.method=="POST":
         upload_form=BookUploadForm(request.POST or None, request.FILES or None)
 
         if "upload" in request.POST and upload_form.is_valid():
@@ -94,7 +95,7 @@ def add_books(request):
             instance.cover=cover
             instance.save();
 
-            upload_form=BookUploadForm(request.POST, request.FILES)
+            upload_form=BookUploadForm(request.POST or None, request.FILES or None)
             context["upload_form"]=upload_form
             context["file_upload"]=True
             context["msg"]="You just uploaded "+instance.title+" by "+author_list[0]
@@ -104,7 +105,7 @@ def add_books(request):
             return render(request, "books/add-books.html", context)
 
     else:
-        upload_form=BookUploadForm(request.POST, request.FILES)
+        upload_form=BookUploadForm(request.POST or None, request.FILES or None)
         context["upload_form"]=upload_form
         context["file_upload"]=True
         return render(request, "books/add-books.html", context)
