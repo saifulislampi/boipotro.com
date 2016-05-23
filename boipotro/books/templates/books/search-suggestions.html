@@ -1,0 +1,19 @@
+{% if books_with_title.count > 0 %}
+
+
+    <ul>
+    {% for book in books_with_title %}
+        <li> <a href="{{book.get_absolute_url}}" >বই : {{book.title}}</a> </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+
+
+{% if books_with_title.count == 0 %}
+
+    <ul>
+        <li>কিছু পাওয়া যায় নি</li>
+    </ul>
+
+{% endif %}

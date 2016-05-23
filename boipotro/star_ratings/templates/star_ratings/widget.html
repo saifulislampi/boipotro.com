@@ -7,13 +7,17 @@
 <div class="star-ratings-rating-average">{% trans 'গড় ভোট: ' %} <span class='star-ratings-rating-value'>{{ rating.average|floatformat:"-2" }}</span></div>
 {% endblock rating_average %}
 {% block rating_count %}
-<div class="star-ratings-rating-count">{% trans 'মোট ভোট: ' %} <span class='star-ratings-rating-value'>{{ rating.count }}</span></div>
+<div class="star-ratings-rating-count">{% trans 'মোট ভোট দিয়েছে: ' %} <span class='star-ratings-rating-value'>{{ rating.count }} জন</span></div>
 {% endblock rating_count %}
 {% block rating_user %}
-<div class="star-ratings-rating-user">{% trans 'আপনি ভোট দিয়েছেন: ' %} <span class='star-ratings-rating-value'>{% if user_rating %}{{ user_rating.score }}{% else %}{% trans 'আপনি এখনো ভোট দেন নাই' %}{% endif %}</span></div>
-{% if not user.is_authenticated %}
+    {% if user_rating %}
+        <div class="star-ratings-rating-user">{% trans 'আপনি ভোট দিয়েছেন: ' %} <span class='star-ratings-rating-value'>{{ user_rating.score }}</span></div>
+    {% else %}
+        <div class="star-ratings-rating-user"><span>{% trans 'আপনি এখনো ভোট দেন নাই' %}</span> </div>
+    {% endif %}
+
+<!-- {% if not user.is_authenticated %}
     <p>{% trans 'ভোট দিতে লগ ইন করুন । ' %}</p>
-{% endif %}
+{% endif %} -->
 {% endblock rating_user %}
-<div class="star-ratings-errors"></div>
 {% endblock rating_detail %}

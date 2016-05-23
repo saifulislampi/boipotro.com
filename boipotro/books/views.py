@@ -22,7 +22,7 @@ from .epubscraper import book_keeper,imscrap
 
 
 def home(request):
-    new_addition=Book.objects.all().order_by("-id")[:8]
+    new_addition=Book.objects.all().order_by("-id")[:12]
     popular=Book.objects.filter(ratings__isnull=False).order_by('-ratings__average')
 
     context={
@@ -80,6 +80,32 @@ def book_detail(request,slug=None):
     }
 
     return render(request, "books/book-detail.html", context)
+
+
+def search_suggestions(request):
+    if request.method == "GET":
+        search_text = request.GET['search_text']
+        if search_text is not None and search_text != u"":
+            search_text = request.GET['search_text']
+            search_text = search_text.strip()
+            books_with_title=Book.objects.filter(title__contains=search_text)
+            # post_with_content=Post.objects.filter(content__contains=search_text)
+
+        else:
+            books_with_title=[]
+            # book_with_content=[]
+
+    # post_with_title=Post.objects.filter(title__contains=search_text)
+
+    contex_data={
+        "books_with_title": books_with_title,
+        # "post_with_content": post_with_content
+    }
+    return render(request, 'books/search-suggestions.html', contex_data)
+
+
+def search_results(request):
+    pass
 
 
 

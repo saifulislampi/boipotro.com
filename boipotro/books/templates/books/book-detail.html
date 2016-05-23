@@ -36,24 +36,26 @@
                 <b>মূল্যঃ </b> {{book.get_price_in_bn}} টাকা মাত্র ।
                 <br> <br>
                 {% if not book.free %}
-                    <form id='add-form' method='GET' action="">
+                    <form class='add-form' method='GET' action="">
 
                         <input type="hidden" name='item' value='{{ book.id }}' />
 
                         <input class='form-control' type='hidden' name='qty' value='1' />
 
-                        <input id='submit-btn' type='submit' value='Add to Cart' class='btn btn-default' />
+                        <input id='submit-btn' type='submit' value='Add to Cart' class='btn btn-warning' />
                     </form>
                 {% endif %}
 
                 {% if book.free %}
-                    <a href="{{book.book_file.url}}" type="button" class="btn btn-default">Downlaod</a>
+                    <a href="{{book.book_file.url}}" type="button" class="btn btn-info">Downlaod</a>
+                    <br>
                 {% endif %}
 
                 <br>
                 {% ratings book %}
 
             </div>
+
         </div>
         <hr/>
         <br/>
@@ -84,37 +86,4 @@
     </div>
 
 
-
 {% endblock %}
-
-
-<script>
-{% block jquery %}
-// ajax add to cart
-
-    $("#submit-btn").click(function(event){
-        event.preventDefault();
-        var formData = $("#add-form").serialize();
-        console.log(formData);
-        console.log("Submit Button Clicked!");
-        $.ajax({
-            type: "GET", // "POST"
-            url: "{% url 'carts:cart' %}",
-            data: formData,
-            success: function(data) {
-                console.log(data.flash_message);
-                updateCartItemCount();
-                $("#cart-count-badge").notify(data.flash_message,{position:"bottom right" ,className: "info"});
-
-            },
-            error: function(response, error) {
-                // console.log(response)
-                // console.log(error)
-                $("#add-form").submit()
-            }
-        })
-    })
-
-{% endblock %}
-
-</script>

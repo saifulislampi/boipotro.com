@@ -1,23 +1,154 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load ratings %}
 
 {% block title %} স্বাগতম | {{ block.super }} {% endblock %}
 
 {% block content %}
-    <h2>নতুন যোগ হয়ছে </h2>
-    <hr/>
-    {% for book in new_addition %}
-        <a href="{{book.get_absolute_url}}">{{book.title}}</a>
-        <br>
-    {% endfor %}
+    <div class="row">
+        <h2>নতুন সংযোজন </h2>
+        <hr/>
+        {% for book in new_addition %}
+            <div class="image-container col-lg-3 col-md-4 col-sm-4 col-xs-6">
 
-    <h2>জনপ্রিয়</h2>
-    <hr/>
-    {% for book in popular %}
-        <a href="{{book.get_absolute_url}}">{{book.title}}</a>
-        <br>
-    {% endfor %}
-    <br><br><br><br>
+                <div class="hovereffect">
+                    <a href="{{book.get_absolute_url}}"><img class="img-responsive" src="{{book.cover.url}}" alt="{{book.title}}"></a>
+
+                    <div class="overlay">
+                        <h2 class="hidden-xs">{{book.title}}</h2>
+
+                        <div class="visible-xs">
+                            <br><br>
+                            <b>লেখকঃ </b>
+                            {% for author in book.authors.all %}
+                                {{author.author_name}}
+                            {% endfor %}
+                        </div>
+
+                        <div class="hidden-xs">
+                            <b>লেখকঃ </b>
+                            {% for author in book.authors.all %}
+                                <a class="" href="#">{{author.author_name}}</a>
+                            {% endfor %}
+                        </div>
+
+                        <br>
+
+                        <b>মূল্যঃ </b> {{book.get_price_in_bn}} টাকা মাত্র ।
+
+                        <br/>
+                        <div class="hidden-xs" style="color:white;">
+                            <br>
+                            {% ratings_star_only book %}
+                        </div>
+                        <br>
+                        <div class="hidden-xs">
+                            {% if not book.free %}
+                                <form class='add-form' method='GET' action="">
+
+                                    <input type="hidden" name='item' value='{{ book.id }}' />
+
+                                    <input class='form-control' type='hidden' name='qty' value='1' />
+
+                                    <input id='submit-btn' type='submit' value='Add to Cart' class='btn btn-warning' />
+                                </form>
+                            {% endif %}
+
+                            {% if book.free %}
+                                <a href="{{book.book_file.url}}" type="button" class="btn btn-info">Downlaod</a>
+                                <br>
+                            {% endif %}
+                        </div>
+                        <br>
+                        <a class="info" href="{{book.get_absolute_url}}">বিস্তারিত</a>
+                    </div>
+                </div>
+
+            </div>
+
+
+        {% endfor %}
+
+    </div>
+
+    <br><br>
+
+    <div class="row">
+        <h2>জনপ্রিয়</h2>
+        <hr/>
+        {% for book in popular %}
+        <div class="image-container col-lg-3 col-md-4 col-sm-4 col-xs-6">
+
+            <div class="hovereffect">
+                <a href="{{book.get_absolute_url}}"><img class="img-responsive" src="{{book.cover.url}}" alt="{{book.title}}"></a>
+
+                <div class="overlay">
+                    <h2 class="hidden-xs">{{book.title}}</h2>
+
+                    <div class="visible-xs">
+                        <br><br>
+                        <b>লেখকঃ </b>
+                        {% for author in book.authors.all %}
+                            {{author.author_name}}
+                        {% endfor %}
+                    </div>
+
+                    <div class="hidden-xs">
+                        <b>লেখকঃ </b>
+                        {% for author in book.authors.all %}
+                            <a class="" href="#">{{author.author_name}}</a>
+                        {% endfor %}
+                    </div>
+
+                    <br>
+
+                    <b>মূল্যঃ </b> {{book.get_price_in_bn}} টাকা মাত্র ।
+
+                    <br/>
+                    <div class="hidden-xs" style="color:white;">
+                        <br>
+                        {% ratings_star_only book %}
+                    </div>
+                    <br>
+                    <div class="hidden-xs">
+                        {% if not book.free %}
+                            <form class='add-form' method='GET' action="">
+
+                                <input type="hidden" name='item' value='{{ book.id }}' />
+
+                                <input class='form-control' type='hidden' name='qty' value='1' />
+
+                                <input id='submit-btn' type='submit' value='Add to Cart' class='btn btn-warning' />
+                            </form>
+                        {% endif %}
+
+                        {% if book.free %}
+                            <a href="{{book.book_file.url}}" type="button" class="btn btn-info">Downlaod</a>
+                            <br>
+                        {% endif %}
+                    </div>
+
+                    <br>
+                    <a class="info" href="{{book.get_absolute_url}}">বিস্তারিত</a>
+                </div>
+            </div>
+
+        </div>
+
+
+        {% endfor %}
+
+    </div>
+
+
+    <br><br><br><br> <br><br><br><br><br><br><br><br><br><br><br><br>
 
 
 {% endblock %}
+
+
+
+<script>
+
+
+</script>

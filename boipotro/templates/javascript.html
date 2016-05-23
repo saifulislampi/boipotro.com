@@ -32,7 +32,9 @@
 
      $(document).ready(function(){
 
-     	updateCartItemCount()
+     	updateCartItemCount();
+        searchSuggestions();
+        addToCart();
      })
 
     // For fixing nav_bar on top after certain scrolling, code in topbar.html
@@ -51,5 +53,59 @@
          }
      });
 
+
+     function searchSuggestions() {
+
+         $('#search').keyup(function() {
+             console.log("In search ajax call");
+             $.ajax({
+                 type: "GET",
+                 url: "{% url 'books:search_suggestions' %}",
+                 data: {
+                     'search_text' : $('#search').val(),
+                    //  'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+                 },
+                 success: searchSuccess,
+                 dataType: 'html'
+             });
+         });
+     }
+
+     function searchSuccess(data, textStatus, jqXHR){
+
+         $("#suggestions").css('visibility', 'visible');
+         $("#suggestions").hide();
+         $("#suggestions").fadeIn();
+         $('#suggestions').html(data)
+
+
+     }
+
+     function addToCart(){
+         $(".add-form").submit(function(event){
+             event.preventDefault();
+             var formData = $(this).serialize();
+             console.log(formData);
+             console.log("Add to Cart Clicked!");
+
+             $.ajax({
+                 type: "GET", // "POST"
+                 url: "{% url 'carts:cart' %}",
+                 data: formData,
+                 success: function(data) {
+                     console.log(data.flash_message);
+                     updateCartItemCount();
+                     $("#cart-count-badge").notify(data.flash_message,{position:"bottom right" ,className: "info"});
+
+                 },
+                 error: function(response, error) {
+                     // console.log(response)
+                     // console.log(error)
+                     $(".add-form").submit()
+                 }
+             })
+         })
+
+    }
 
 </script>
