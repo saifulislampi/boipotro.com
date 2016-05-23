@@ -1,58 +1,86 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load ratings %}
+{% load crispy_forms_tags %}
 
 {% block title %} {{book.title}} | {{ block.super }} {% endblock %}
 
 
 {% block content %}
     <br>
+    <div id="main" class="col-md-8">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-2">
+                <!-- <h2 align="center">{{book.title}}</h2> -->
+                <img src="{{book.cover.url}}" style="margin-right: 10px; box-shadow: 3px 3px 20px #202020;" height="318px" width="225px">
 
-    <div class="col-md-4 col-md-offset-2">
-        <!-- <h2 align="center">{{book.title}}</h2> -->
-        <img src="{{book.cover.url}}" style="margin-right: 10px; box-shadow: 3px 3px 20px #202020;" height="318px" width="225px">
+            </div>
 
-    </div>
-
-    <div class="col-md-6">
-        <p id='jquery-message' class='lead'></p>
+            <div class="col-md-6">
+                <p id='jquery-message' class='lead'></p>
 
 
-        <h2>{{book.title}}</h2>
-        <b>লেখকঃ</b>
-        {% for author in book.authors.all %}
-            <a href="#">{{author.author_name}}</a>
-        {% endfor %}
-        <br>
-        <b>ধরণঃ</b> <a href="#">{{book.category}}</a>
-        <br>
-        {% if book.subject %}
-            <b>বিষয়ঃ</b> <a href="#">{{book.subject}}</a>
-            <br>
-        {% endif %}
+                <h2>{{book.title}}</h2>
+                <b>লেখকঃ</b>
+                {% for author in book.authors.all %}
+                    <a href="#">{{author.author_name}}</a>
+                {% endfor %}
+                <br>
+                <b>ধরণঃ</b> <a href="#">{{book.category}}</a>
+                <br>
+                {% if book.subject %}
+                    <b>বিষয়ঃ</b> <a href="#">{{book.subject}}</a>
+                    <br>
+                {% endif %}
 
-        <b>মূল্যঃ </b> {{book.get_price_in_bn}} টাকা মাত্র ।
-        <br> <br>
-        {% if not book.free %}
-            <form id='add-form' method='GET' action="">
+                <b>মূল্যঃ </b> {{book.get_price_in_bn}} টাকা মাত্র ।
+                <br> <br>
+                {% if not book.free %}
+                    <form id='add-form' method='GET' action="">
 
-                <input type="hidden" name='item' value='{{ book.id }}' />
+                        <input type="hidden" name='item' value='{{ book.id }}' />
 
-                <input class='form-control' type='hidden' name='qty' value='1' />
+                        <input class='form-control' type='hidden' name='qty' value='1' />
 
-                <input id='submit-btn' type='submit' value='Add to Cart' class='btn btn-default' />
-            </form>
-        {% endif %}
+                        <input id='submit-btn' type='submit' value='Add to Cart' class='btn btn-default' />
+                    </form>
+                {% endif %}
 
-        {% if book.free %}
-            <a href="{{book.book_file.url}}" type="button" class="btn btn-default">Downlaod</a>
-        {% endif %}
+                {% if book.free %}
+                    <a href="{{book.book_file.url}}" type="button" class="btn btn-default">Downlaod</a>
+                {% endif %}
 
-        <br>
-        {% ratings book %}
+                <br>
+                {% ratings book %}
 
-        <!-- f or testing scroll-->
-        <br> <br>    <br> <br>    <br> <br>    <br> <br>    <br> <br>    <br> <br>    <br> <br>
+            </div>
+        </div>
+        <hr/>
+        <br/>
+
+        <div id="reviews" class="">
+            <p class='lead'>রিভিউ</p>
+            {% if request.user.is_authenticated %}
+                <form method="POST" action="."> {% csrf_token %}
+                    {{ review_form|crispy }}
+                    <input type='submit' value='রিভিউ পোস্ট করুন' class='btn btn-default'>
+                </form>
+            {% else %}
+                <p>রিভিউ লিখতে হলে আপনাকে অবশ্যই লগইন করতে হবে।</p>
+            {% endif %}
+
+            <hr/>
+
+            {% for review in reviews %}
+                <blockquote>
+                    <p>{{ review.content }}</p>
+                    <footer>লিখেছেন {{ review.user }}
+                        {% if request.user == review.user %}<a href='{{ review.get_delete_url }}'>X</a> {% endif %}
+                    </footer>
+                </blockquote>
+            {% endfor %}
+        </div>
+
     </div>
 
 

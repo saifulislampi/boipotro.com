@@ -36,15 +36,18 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
 
     #3rd Party APPS
     'crispy_forms',
     'star_ratings',
+    'registration',
 
     #My Apps
     'books',
     'carts',
+    'comments',
 
 ]
 
@@ -142,3 +145,20 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media_cdn")
 
 # CRISPY FORM TAGs SETTINGs
 CRISPY_TEMPLATE_PACK="bootstrap3"
+
+
+
+#DJANGO REGISTRATION REDUX TAGs
+
+ACCOUNT_ACTIVATION_DAYS=7
+REGISTRATION_AUTO_LOGIN=True
+SITE_ID=1
+LOGIN_REDIRECT_URL="/"
+
+#MY EMAIL Configuration
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'eboipotroepub@gmail.com'
+EMAIL_HOST_PASSWORD = 'dummypassword'

@@ -1,20 +1,33 @@
  # -*- coding: utf-8 -*-
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
+
+import os
+
+from comments.forms import CommentForm
+from comments.models import Comment
+
 from .models import Book,Author
 from .forms import BookUploadForm
 from .epubscraper import book_keeper,imscrap
-import os
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
+
+
 # Create your views here.
+
+
+
 
 
 def home(request):
     new_addition=Book.objects.all().order_by("-id")[:8]
+    popular=Book.objects.filter(ratings__isnull=False).order_by('-ratings__average')
 
     context={
         "new_addition":new_addition,
+        "popular":popular,
     }
     return render(request, "index.html", context)
 
@@ -26,9 +39,44 @@ def all_books(request):
 def book_detail(request,slug=None):
 
     book = get_object_or_404(Book,slug=slug)
-    context={
-        "book":book,
+    initial_data = {
+			"content_type": book.get_content_type,
+			"object_id": book.id
+	}
+    review_form = CommentForm(request.POST or None, initial=initial_data)
 
+    if review_form.is_valid() and request.user.is_authenticated():
+        c_type = review_form.cleaned_data.get("content_type")
+        content_type = ContentType.objects.get(model=c_type)
+        obj_id = review_form.cleaned_data.get('object_id')
+        content_data = review_form.cleaned_data.get("content")
+        parent_obj = None
+        try:
+            parent_id = int(request.POST.get("parent_id"))
+        except:
+            parent_id = None
+
+        if parent_id:
+            parent_qs = Comment.objects.filter(id=parent_id)
+            if parent_qs.exists() and parent_qs.count() == 1:
+                parent_obj = parent_qs.first()
+
+
+        new_review, created = Comment.objects.get_or_create(
+                            user = request.user,
+                            content_type= content_type,
+                            object_id = obj_id,
+                            content = content_data,
+                            parent = parent_obj,
+                            )
+        return HttpResponseRedirect(new_review.content_object.get_absolute_url())
+
+
+    reviews = book.comments
+    context = {
+        "book": book,
+        "reviews" : reviews,
+        "review_form" :review_form,
     }
 
     return render(request, "books/book-detail.html", context)

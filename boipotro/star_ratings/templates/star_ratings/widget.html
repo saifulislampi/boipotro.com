@@ -1,1 +1,19 @@
 {% extends "star_ratings/widget_base.html" %}
+{% load ratings %}
+{% load i18n %}
+
+{% block rating_detail %}
+{% block rating_average %}
+<div class="star-ratings-rating-average">{% trans 'গড় ভোট: ' %} <span class='star-ratings-rating-value'>{{ rating.average|floatformat:"-2" }}</span></div>
+{% endblock rating_average %}
+{% block rating_count %}
+<div class="star-ratings-rating-count">{% trans 'মোট ভোট: ' %} <span class='star-ratings-rating-value'>{{ rating.count }}</span></div>
+{% endblock rating_count %}
+{% block rating_user %}
+<div class="star-ratings-rating-user">{% trans 'আপনি ভোট দিয়েছেন: ' %} <span class='star-ratings-rating-value'>{% if user_rating %}{{ user_rating.score }}{% else %}{% trans 'আপনি এখনো ভোট দেন নাই' %}{% endif %}</span></div>
+{% if not user.is_authenticated %}
+    <p>{% trans 'ভোট দিতে লগ ইন করুন । ' %}</p>
+{% endif %}
+{% endblock rating_user %}
+<div class="star-ratings-errors"></div>
+{% endblock rating_detail %}
