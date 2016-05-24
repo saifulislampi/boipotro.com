@@ -8,50 +8,60 @@
 
 <script>
 
-     function updateCartItemCount(){
-     	var badge = $("#cart-count-badge");
-        console.log("Updating cart item count");
 
-     	$.ajax({
-     		type: "GET",
-     		url: "{% url 'carts:item_count' %}",
-     		success: function(data){
-     			badge.text(data.count);
-     			console.log(data.count);
-                console.log("Successfully updated cart item");
 
-     		},
-     		error: function(response, error) {
-     			console.log(response)
-     			console.log(error);
-     		}
-
-     	})
-
-     }
-
-     $(document).ready(function(){
+    $(document).ready(function(){
 
      	updateCartItemCount();
         searchSuggestions();
         addToCart();
-     })
+        stickyNavbar();
+        
+    })
+
+
+    function updateCartItemCount(){
+       var badge = $("#cart-count-badge");
+       console.log("Updating cart item count");
+
+       $.ajax({
+           type: "GET",
+           url: "{% url 'carts:item_count' %}",
+           success: function(data){
+               badge.text(data.count);
+               console.log(data.count);
+               console.log("Successfully updated cart item");
+
+           },
+           error: function(response, error) {
+               console.log(response)
+               console.log(error);
+           }
+
+       })
+
+    }
+
+
 
     // For fixing nav_bar on top after certain scrolling, code in topbar.html
-     var navpos = $('#nav_bar').offset();
+    function stickyNavbar() {
+        var navpos = $('#nav_bar').offset();
 
-     $(window).bind('scroll', function () {
-         if ($(window).scrollTop() > navpos.top) {
-              console.log($(window).scrollTop())
-             // console.log("Scrolled down");
-             $('#nav_bar').addClass('navbar-fixed-top');
-         }
-         if ($(window).scrollTop() <navpos.top+1){
-              console.log($(window).scrollTop())
-             // console.log("Scrolled up");
-             $('#nav_bar').removeClass('navbar-fixed-top');
-         }
-     });
+        $(window).bind('scroll', function () {
+            if ($(window).scrollTop() > navpos.top) {
+                 console.log($(window).scrollTop())
+                // console.log("Scrolled down");
+                $('#nav_bar').addClass('navbar-fixed-top');
+            }
+            if ($(window).scrollTop() <navpos.top+1){
+                 console.log($(window).scrollTop())
+                // console.log("Scrolled up");
+                $('#nav_bar').removeClass('navbar-fixed-top');
+            }
+        });
+
+    }
 
 
      function searchSuggestions() {
@@ -67,21 +77,29 @@
                  },
                  success: searchSuccess,
                  dataType: 'html'
+
              });
+         });
+         $('#search').focusout(function() {
+              $("#suggestions").css('z-index', '-1');
+         });
+         $('#search').focusin(function() {
+              $("#suggestions").css('z-index', '3000');
          });
      }
 
-     function searchSuccess(data, textStatus, jqXHR){
+    function searchSuccess(data, textStatus, jqXHR){
 
          $("#suggestions").css('visibility', 'visible');
+         $("#suggestions").css('z-index', '3000');
          $("#suggestions").hide();
          $("#suggestions").fadeIn();
          $('#suggestions').html(data)
 
 
-     }
+    }
 
-     function addToCart(){
+    function addToCart(){
          $(".add-form").submit(function(event){
              event.preventDefault();
              var formData = $(this).serialize();

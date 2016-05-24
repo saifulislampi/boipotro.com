@@ -13,8 +13,8 @@ from .views import (
 
 urlpatterns = [
 
-    url(r'^$',home),
-    url(r'^all$', all_books, name='all_books'),
+    url(r'^$',home, name="home"),
+    url(r'^all/$', all_books, name='all_books'),
     url(r'^add$', add_books, name='add_books'),
     url(r'^(?P<slug>[\w|\W]+)/$', book_detail, name='detail'),
     url(r'^search_suggestions$',search_suggestions , name='search_suggestions'),

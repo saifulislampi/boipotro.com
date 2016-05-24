@@ -28,7 +28,7 @@
                         <div class="hidden-xs">
                             <b>লেখকঃ </b>
                             {% for author in book.authors.all %}
-                                <a class="" href="#">{{author.author_name}}</a>
+                                <a class="" href="{{author.get_absolute_url}}">{{author.author_name}}</a>
                             {% endfor %}
                         </div>
 

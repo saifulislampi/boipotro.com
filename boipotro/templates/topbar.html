@@ -17,7 +17,7 @@
                     </span>
 
                 </div>
-                <div id="contain" class="col-md-6  col-sm-10 col-xs-10">
+                <div id="suggestions-container" class="col-md-6  col-sm-10 col-xs-10">
 					<div id="suggestions" class="col-md-6 col-sm-10 col-xs-10">
 
                   	</div>
@@ -40,13 +40,15 @@
 
                 <div class="collapse navbar-collapse" id="main-nav-bar">
                   <ul class="nav navbar-nav">
-                    <li class="active"><a  href="#">প্রথম পাতা</a></li>
-                    <li><a  href="#">সকল বই</a></li>
+
+                    <li class="{% if nbar == 'home' %}active{% endif %}"><a  href="/">প্রথম পাতা</a></li>
+
+                    <li class="{% if nbar == 'all' %}active{% endif %}"><a  href="{% url 'books:all_books' %}">সকল বই</a></li>
                     <li><a data-toggle="modal" href="myModal">লেখক</a></li>
                   </ul>
 
                   <ul class="nav navbar-nav navbar-right">
-                      <li id="cart-icon">
+                      <li class="{% if nbar == 'cart' %}active{% endif %}" id="cart-icon">
                           <a href='{% url "carts:cart" %}'><span class="glyphicon glyphicon-shopping-cart"></span> <span id="cart-count-badge" class='badge'>{{request.session.cart_item_count}}</span></a>
                       </li>
 
@@ -55,7 +57,7 @@
                        <li><a href="{% url 'auth_logout' %}"><span class="glyphicon glyphicon-log-out"></span> লগ আউট</a></li>
 
                        {% else %}
-                      <li><a href="accounts/register"><span class="glyphicon glyphicon-user"></span>সাইন আপ </a></li>
+                      <li><a href="/accounts/register"><span class="glyphicon glyphicon-user"></span>সাইন আপ </a></li>
 
                       <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-log-in"></span> লগ ইন </a>

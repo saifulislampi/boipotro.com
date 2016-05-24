@@ -146,7 +146,8 @@ class CartView(SingleObjectMixin, View):
 
 
         context = {
-            "object": self.get_object()
+            "object": self.get_object(),
+            "nbar":"cart"
         }
         template = self.template_name
         return render(request, template, context)

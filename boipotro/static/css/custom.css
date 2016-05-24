@@ -44,10 +44,9 @@
     position: fixed;
     padding-right: 10%;
     visibility: hidden;
-    z-index: 3000;
+    /*z-index: 3000;*/
 
 }
-
 
 
 /*For Box shadow effet*/
@@ -62,3 +61,6 @@ div.polaroid {
 div.image-container{
     padding: 10px;
 }
+
+
+/*For side nav */

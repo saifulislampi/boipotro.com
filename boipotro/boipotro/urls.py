@@ -20,7 +20,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
-from books.views import home
+from books.views import home,author_detail
 
 
 urlpatterns = [
@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # url(r'^accounts/profile/^$', home, name='home'),
     url(r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^author/(?P<slug>[\w|\W]+)/$', author_detail, name='author_detail'),
 
     url(r'^books/', include("books.urls",namespace='books')),
     url(r'^carts/', include("carts.urls",namespace='carts')),

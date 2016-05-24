@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect
+from django.db.models import Q
 
 import os
 
@@ -28,17 +29,81 @@ def home(request):
     context={
         "new_addition":new_addition,
         "popular":popular,
+        "nbar":"home",
     }
     return render(request, "index.html", context)
 
 
 def all_books(request):
-    return HttpResponse("<h1>This page is supposed to show all books available in the databases. </h1>")
+
+    books=Book.objects.all()
+    category=[]
+
+    for book in books:
+        if book.category not in category:
+            category.append(book.category)
+
+    context={
+
+        "nbar":"all",
+        "books":books,
+        "category":category,
+    }
+    if request.method=="GET":
+        try:
+            p=request.GET.p
+            print(p)
+        except:
+            pass
+        return render(request, "books/all-books.html", context)
+
+    return render(request, "books/all-books.html", context)
+
+def author_detail(request,slug=None):
+    author = get_object_or_404(Author,slug=slug)
+    print(author)
+    context={
+        "author":author,
+        "nbar":"author",
+    }
+
+    return render(request, "books/author-detail.html", context)
+
 
 
 def book_detail(request,slug=None):
 
     book = get_object_or_404(Book,slug=slug)
+
+    auth=book.authors.all()[0];
+
+    print(auth)
+
+    same_author_and_category=auth.book_set.all().filter(category=book.category)
+    same_author=auth.book_set.all()
+    same_category=Book.objects.filter(category=book.category)
+
+
+    related=[]
+
+    for rbook in same_author_and_category:
+        if rbook.id!=book.id:
+            print(rbook)
+            related.append(rbook)
+
+    if len(related)<8:
+        for  rbook in same_author:
+            if rbook.id!=book.id and rbook not in related:
+                related.append(rbook)
+
+    if len(related)<8:
+        for  rbook in same_category:
+            if rbook.id!=book.id and rbook not in related:
+                related.append(rbook)
+
+    related=related[:8]
+
+
     initial_data = {
 			"content_type": book.get_content_type,
 			"object_id": book.id
@@ -77,6 +142,7 @@ def book_detail(request,slug=None):
         "book": book,
         "reviews" : reviews,
         "review_form" :review_form,
+        "related":related,
     }
 
     return render(request, "books/book-detail.html", context)
@@ -85,9 +151,8 @@ def book_detail(request,slug=None):
 def search_suggestions(request):
     if request.method == "GET":
         search_text = request.GET['search_text']
-        if search_text is not None and search_text != u"":
-            search_text = request.GET['search_text']
-            search_text = search_text.strip()
+        if search_text is not None and search_text !=u"":
+            # search_text = search_text.strip()
             books_with_title=Book.objects.filter(title__contains=search_text)
             # post_with_content=Post.objects.filter(content__contains=search_text)
 

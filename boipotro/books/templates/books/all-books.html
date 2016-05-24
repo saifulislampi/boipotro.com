@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load ratings %}
+
+{% block title %} স্বাগতম | {{ block.super }} {% endblock %}
+
+{% block content %}
+
+    <div class="col-sm-2">
+
+        <h3 class="text-center">ক্যাটাগরি</h3>
+
+
+            <a type="button" style="width:100%; margin:1px;" class="btn btn-default" href="/books/all/">সময় অনুসারে</a>
+            <a type="button" style="width:100%; margin:1px;" class="btn btn-success" href="#">জনপ্রিয়তা অনুসারে</a>
+            <a type="button" style="width:100%; margin:1px;" class="btn btn-default" href="#">ফ্রি বই</a>
+
+            {% for cat in category %}
+
+                <a type="button" style="width:100%; margin:1px;" class="btn btn-default " href="#">{{cat}}</a>
+
+            {% endfor %}
+
+
+
+
+    </div>
+
+    <h1>Once upon a time there was a farmer in a village....</h1>
+
+
+{% endblock %}
