@@ -20,8 +20,6 @@ from .epubscraper import book_keeper,imscrap
 
 
 
-
-
 def home(request):
     new_addition=Book.objects.all().order_by("-id")[:12]
     popular=Book.objects.filter(ratings__isnull=False).order_by('-ratings__average')
@@ -46,18 +44,49 @@ def all_books(request):
     context={
 
         "nbar":"all",
-        "books":books,
-        "category":category,
+        "books": books,
+        "category": category,
+        "priority": "all",
     }
     if request.method=="GET":
         try:
-            p=request.GET.p
+            p=request.GET.get('p',"")
             print(p)
+
+            if(p=="time"):
+                books=Book.objects.all().order_by("-id");
+                context["priority"]="time"
+                context["books"]=books
+            elif(p=="free"):
+                books=Book.objects.filter(free=True).order_by("-id")
+                context["books"]=books
+                context["priority"]="free"
+            elif(p=="popular"):
+                books=Book.objects.filter(ratings__isnull=False).order_by('-ratings__average')
+                context["books"]=books
+                context["priority"]="popular"
+            elif p!="":
+                books=Book.objects.filter(category=p).order_by("-id")
+                context["books"]=books
+                context["priority"]=p
         except:
             pass
         return render(request, "books/all-books.html", context)
 
     return render(request, "books/all-books.html", context)
+
+
+def all_author(request):
+    authors=Author.objects.all();
+    context={
+        "authors":authors,
+        "nbar":"author",
+    }
+
+    return render(request, "books/all-author.html", context)
+
+
+
 
 def author_detail(request,slug=None):
     author = get_object_or_404(Author,slug=slug)
@@ -149,22 +178,28 @@ def book_detail(request,slug=None):
 
 
 def search_suggestions(request):
+
     if request.method == "GET":
         search_text = request.GET['search_text']
         if search_text is not None and search_text !=u"":
-            # search_text = search_text.strip()
-            books_with_title=Book.objects.filter(title__contains=search_text)
-            # post_with_content=Post.objects.filter(content__contains=search_text)
+            search_text = search_text.strip()
+            books_with_title=Book.objects.filter(title__icontains=search_text)
+            authors_with_name=Author.objects.filter(author_name__icontains=search_text)
+            books_with_category=Book.objects.filter(category__icontains=search_text)
+
 
         else:
             books_with_title=[]
+            authors_with_name=[]
+            books_with_category=[]
             # book_with_content=[]
 
     # post_with_title=Post.objects.filter(title__contains=search_text)
 
     contex_data={
         "books_with_title": books_with_title,
-        # "post_with_content": post_with_content
+        "authors_with_name": authors_with_name,
+        "books_with_category": books_with_category,
     }
     return render(request, 'books/search-suggestions.html', contex_data)
 

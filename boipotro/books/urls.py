@@ -8,6 +8,7 @@ from .views import (
         book_detail,
         search_suggestions,
         search_results,
+    
     )
 
 

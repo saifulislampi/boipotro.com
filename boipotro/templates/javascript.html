@@ -16,7 +16,7 @@
         searchSuggestions();
         addToCart();
         stickyNavbar();
-        
+
     })
 
 
@@ -79,12 +79,6 @@
                  dataType: 'html'
 
              });
-         });
-         $('#search').focusout(function() {
-              $("#suggestions").css('z-index', '-1');
-         });
-         $('#search').focusin(function() {
-              $("#suggestions").css('z-index', '3000');
          });
      }
 

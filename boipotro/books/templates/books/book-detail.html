@@ -24,7 +24,7 @@
                     <a href="{{author.get_absolute_url}}">{{author.author_name}}</a>
                 {% endfor %}
                 <br>
-                <b>ধরণঃ</b> <a href="#">{{book.category}}</a>
+                <b>ধরণঃ</b> <a href="/books/all/?p={{book.category}}">{{book.category}}</a>
                 <br>
                 {% if book.subject %}
                     <b>বিষয়ঃ</b> <a href="#">{{book.subject}}</a>

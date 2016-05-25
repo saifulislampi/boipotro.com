@@ -1,16 +1,31 @@
 {% if books_with_title.count > 0 %}
-
-
+    <h3>বইঃ</h3>
     <ul>
     {% for book in books_with_title %}
-        <li> <a href="{{book.get_absolute_url}}" >বই : {{book.title}}</a> </li>
+        <li> <a href="{{book.get_absolute_url}}" >{{book.title}}</a> </li>
     {% endfor %}
     </ul>
 {% endif %}
 
+{% if authors_with_name.count > 0 %}
+    <h3>লেখকঃ</h3>
+    <ul>
+    {% for author in authors_with_name %}
+        <li> <a href="{{author.get_absolute_url}}" >{{author.author_name}}</a> </li>
+    {% endfor %}
+    </ul>
+{% endif %}
 
+{% if books_with_category.count > 0  %}
+    <h3> অন্যান্যঃ </h3>
+    <ul>
+        {% for book in books_with_category %}
+            <li> <a href="{{book.get_absolute_url}}" >{{book.title}}</a> </li>
+        {% endfor %}
+    </ul>
+{% endif %}
 
-{% if books_with_title.count == 0 %}
+{% if books_with_title.count == 0 and authors_with_name.count == 0 and books_with_category == 0 %}
 
     <ul>
         <li>কিছু পাওয়া যায় নি</li>

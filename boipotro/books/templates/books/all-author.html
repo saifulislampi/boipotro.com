@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load ratings %}
+{% load crispy_forms_tags %}
+
+{% block title %} লেখক | {{ block.super }} {% endblock %}
+
+{% block content %}
+    <h3>বইপত্রে যে সব লেখকের বই আছে ...</h3>
+    <hr>
+    <div class="row ">
+        {% for author in authors %}
+
+                <div class="polaroid col-lg-2 col-md-2 col-sm-3 col-xs-4 " style="margin:10px ; height:300px">
+                    {% if author.image %}
+                        <img src="{{author.image.url}}" alt="" class="img-responsive"/> <br>
+                    {% endif %}
+                    <p>
+                        <a href="{{author.get_absolute_url}}">{{author.author_name}}</a>
+                    </p>
+                </div>
+
+
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

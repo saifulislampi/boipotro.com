@@ -5,10 +5,15 @@ from books.models import Book,Author
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from .models import Cart,CartItem
+from django.core.mail import EmailMessage
 
+from .models import Cart,CartItem
 from django.views.generic.base import View
 from django.views.generic.detail import SingleObjectMixin, DetailView
+
+import os
+
+
 
 
 def cart_item_count(request):
@@ -153,13 +158,69 @@ class CartView(SingleObjectMixin, View):
         return render(request, template, context)
 
 
+@login_required
+def checkout(request):
 
+    cart_id =request.session.get("cart_id")
+    cart = Cart.objects.get(id=cart_id)
 
+    context={}
 
-def cart(request):
-    msg="Cart has not been implemented yet!"
+    if request.method=="POST":
+        if "Select" in request.POST:
+            payment_method=request.POST.get("payment_method","")
+
+            if payment_method=="Bkash":
+                context["bkash"]=True
+                context["price"]=cart.total
+                return render(request,"carts/checkout.html", context)
+        if "bkash_payment" in request.POST:
+            txid=request.POST.get("txid","")
+            if txid!="":
+                items=cart.cartitem_set.all()
+
+                email_to=[]
+                email=request.user.email
+                email_to.append(email)
+                msg="Dear "+request.user.username+" . Here are your books you purchased from our site. Gretings from Boipotro.com"
+                email = EmailMessage("Books from Boipotro.Com",msg, "order@boipotro.com",email_to)
+                email.content_subtype = "html"
+
+                for book in items:
+                     email.attach(book.item.book_file.name,book.item.book_file.read(),"application/epub")
+
+                res = email.send()
+                if(res==1):
+                    request.session["cart_id"] =None
+                    context["msg"]="Your purchased books has been sent to your email address. Enjoy!"
+                else:
+                    context["msg"]="We had some problem processing your purchase. Please try again."
+                return render(request,"carts/checkout.html", context)
     context={
-        "msg":msg,
 
+        "payment_method":True,
     }
-    return render(request, "carts/cart.html", context)
+    return render(request,"carts/checkout.html", context)
+
+
+
+# @login_required
+# def checkout(request):
+#    emailto=[]
+#    email=request.user.email
+#    book=Book.objects.all()[1]
+#    emailto.append(email)
+#    print(emailto)
+#    html_content = "Comment tu vas?"
+#    email = EmailMessage("my subject", html_content, "paul@polo.com", emailto)
+#    email.content_subtype = "html"
+#
+#
+#    # file=os.path.join()
+#
+#    email.attach(book.title+".epub",book.book_file.read(),"application/epub")
+#
+#    res = email.send()
+#    return HttpResponse('%s'%res)
+#
+#

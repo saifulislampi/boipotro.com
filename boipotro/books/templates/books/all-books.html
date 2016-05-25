@@ -5,28 +5,71 @@
 {% block title %} স্বাগতম | {{ block.super }} {% endblock %}
 
 {% block content %}
+    <br>
+    <div class="col-sm-2" style="border: 1px solid grey;">
+            <h2> তালিকা </h2>
+            <ul>
+                <li> <a href="/books/all/?p=time">সময় অনুসারে</a> </li>
+                <li> <a  href="/books/all/?p=popular">জনপ্রিয়তা অনুসারে</a> </li>
+                <li> <a  href="/books/all/?p=free">ফ্রি বই</a> </li>
 
-    <div class="col-sm-2">
-
-        <h3 class="text-center">ক্যাটাগরি</h3>
-
-
-            <a type="button" style="width:100%; margin:1px;" class="btn btn-default" href="/books/all/">সময় অনুসারে</a>
-            <a type="button" style="width:100%; margin:1px;" class="btn btn-success" href="#">জনপ্রিয়তা অনুসারে</a>
-            <a type="button" style="width:100%; margin:1px;" class="btn btn-default" href="#">ফ্রি বই</a>
-
-            {% for cat in category %}
-
-                <a type="button" style="width:100%; margin:1px;" class="btn btn-default " href="#">{{cat}}</a>
-
-            {% endfor %}
-
-
-
+                {% for cat in category %}
+                    <li><a  href="/books/all/?p={{cat}}">{{cat}}</a></li>
+                {% endfor %}
+            </ul>
 
     </div>
 
-    <h1>Once upon a time there was a farmer in a village....</h1>
+    <div class="col-sm-9 col-md-10 col-sm-offset-1 col-md-offset-0">
+            {% if priority == "all" %}
+                <h2>সব বই এক সাথে</h2>
+            {% elif priority == "time" %}
+                <h2>সব বই সময় অনুসারে</h2>
+            {% elif priority == "popular" %}
+                <h2>সব জনপ্রিয়তা সময় অনুসারে</h2>
+            {% elif priority == "free" %}
+                    <h2>সব ফ্রি বই এক সাথে</h2>
+            {% else %}
+                <h2> সব {{priority}} একসাথে </h2>
+            {% endif %}
+            <hr>
+
+            <div class="row ">
+                {% for book  in books%}
+
+                        <div class="polaroid col-lg-2 col-md-2 col-sm-3 col-xs-4 " style="margin:10px ; height:350px">
+                            <img src="{{book.cover.url}}" alt="" class="img-responsive"/> <br>
+                            <p>
+                                <a href="{{book.get_absolute_url}}">{{book.title}}</a><br>
+                                <b>লেখকঃ</b>
+                                {% for author in book.authors.all  %}
+                                    <a href="{{author.get_absolute_url}}">{{author.author_name}}</a> <br>
+                                {% endfor %}
+
+                                {% if not book.free %}
+                                    <b> মূল্যঃ</b> {{book.get_price_in_bn}}  টাকা মাত্র । <br><br>
+                                    <form class='add-form' method='GET' action="">
+
+                                        <input type="hidden" name='item' value='{{ book.id }}' />
+
+                                        <input class='form-control' type='hidden' name='qty' value='1' />
+
+                                        <input id='submit-btn' type='submit' value='Add to Cart' class='btn btn-warning' />
+                                    </form>
+                                {% else %}
+                                    <b> ফ্রি</b><br> <br>
+                                    <a href="{{book.book_file.url}}" type="button" class="btn btn-info">Downlaod</a>
+                                    <br>
+                                {% endif %}
+                            </p>
+                        </div>
+
+
+                {% endfor %}
+            </div>
+
+
+    </div>
 
 
 {% endblock %}

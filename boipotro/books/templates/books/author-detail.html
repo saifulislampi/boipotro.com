@@ -6,14 +6,41 @@
 {% block title %} {{author.author_name}} | {{ block.super }} {% endblock %}
 
 {% block content %}
+    {% if author.image %}
+        <img src="{{author.image.url}}" alt=""  width="300px" /> <br>
+    {% endif %}
     <h1>{{author.author_name}}</h1>
 
-    <ul>
+    <hr>
+
+
         {% for book in author.book_set.all %}
 
-            <li><a href="{{book.get_absolute_url}}">{{book.title}}</a></li>    
+        <div class="polaroid col-lg-2 col-md-2 col-sm-3 col-xs-4 " style="margin:10px ; height:360px">
+            <img src="{{book.cover.url}}" alt="" class="img-responsive" /> <br>
+            <p>
+                <a href="{{book.get_absolute_url}}">{{book.title}}</a><br>
+
+                {% if not book.free %}
+                    <b> মূল্যঃ</b> {{book.get_price_in_bn}}  টাকা মাত্র । <br><br>
+                    <form class='add-form' method='GET' action="">
+
+                        <input type="hidden" name='item' value='{{ book.id }}' />
+
+                        <input class='form-control' type='hidden' name='qty' value='1' />
+
+                        <input id='submit-btn' type='submit' value='Add to Cart' class='btn btn-warning' />
+                    </form>
+                {% else %}
+                    <b> ফ্রি</b><br> <br>
+                    <a href="{{book.book_file.url}}" type="button" class="btn btn-info">Downlaod</a>
+                    <br>
+                {% endif %}
+            </p>
+        </div>
+
 
         {% endfor %}
-    </ul>
+
 
 {% endblock %}

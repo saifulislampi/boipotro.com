@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %} কার্ট | {{ block.super }} {% endblock %}
+
+{% block content %}
+
+    {% if msg %}
+        <h2>{{msg}}</h2>
+    {% endif %}
+
+    <div class="row">
+        {% if payment_method %}
+        <form role="form" method="post" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="payment_method">Select a payment method:</label>
+                <select class="form-control" id="payment_method" name="payment_method">
+                    <option>Bkash</option>
+                    <option>VISA</option>
+                    <option>DBBL</option>
+                </select>
+            </div>
+            <input type="submit" class="btn btn-primary" name="Select" value="Submit Method">
+        </form>
+        {% endif %}
+
+        {% if bkash %}
+            <h2>Please send tk.{{price}} to our bkash number and enter your transaction id here</h2>
+            <form class="" action="" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="usr">Enter your transaction ID:</label>
+                    <input type="text" class="form-control" id="txid" name="txid">
+                </div>
+                <input type="submit" class="btn btn-primary" name="bkash_payment" value="Submit">
+            </form>
+
+        {% endif %}
+
+
+
+    </div>
+
+
+
+{% endblock %}

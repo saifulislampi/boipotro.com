@@ -63,4 +63,13 @@ div.image-container{
 }
 
 
-/*For side nav */
+/*For footer */
+
+.bg-4 {
+      background-color: #2f2f2f; /* Black Gray */
+      color: #fff;
+  }
+  /*.container-fluid {
+      padding-top: 70px;
+      padding-bottom: 70px;
+  }*/

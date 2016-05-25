@@ -17,6 +17,8 @@
             <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
             <link rel="stylesheet" href="{% static "css/custom.css" %}" type="text/css" />
             <link rel="stylesheet" href="{% static "css/hovereffect3.css" %}" type="text/css" />
+            <link rel="stylesheet" href="{% static "css/sidebar.css" %}" type="text/css" />
+            <link rel="stylesheet" href="{% static "font-awesome/css/font-awesome.min.css" %}" type="text/css" />
 
         {% endblock %}
 
@@ -44,11 +46,12 @@
         </div>
 
         <!-- Contains javascript functions needed for rest of the website that extends base.html -->
-        <div class="">
+        <div class="col-lg-12">
             <hr>
-            <h3>FOOTER</h3>
+            <footer class="text-center" style="padding:70px;">
+                <h3>বইপত্র।কম</h3>
+            </footer>
         </div>
-
 
         {% include "javascript.html" %}
 
