@@ -21,8 +21,8 @@ from .epubscraper import book_keeper,imscrap
 
 
 def home(request):
-    new_addition=Book.objects.all().order_by("-id")[:12]
-    popular=Book.objects.filter(ratings__isnull=False).order_by('-ratings__average')
+    new_addition=Book.objects.all().order_by("-id")[:8]
+    popular=Book.objects.filter(ratings__isnull=False).order_by('-ratings__average')[:8]
 
     context={
         "new_addition":new_addition,

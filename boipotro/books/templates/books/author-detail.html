@@ -6,9 +6,27 @@
 {% block title %} {{author.author_name}} | {{ block.super }} {% endblock %}
 
 {% block content %}
-    {% if author.image %}
-        <img src="{{author.image.url}}" alt=""  width="300px" /> <br>
-    {% endif %}
+    <div class="row">
+        <div class="col-sm-4">
+            {% if author.image %}
+                <img src="{{author.image.url}}" alt=""  width="300px" /> <br>
+            {% endif %}
+
+        </div>
+        {% if author.description %}
+            <div class="col-sm-8">
+                <p>
+                    {{author.description|linebreaksbr}}
+                    {% if author.external_link %}
+                        <br><br>
+                        <a href="{{author.external_link}}">বিস্তারিত...</a>
+                    {% endif %}
+                </p>
+
+            </div>
+        {% endif %}
+
+    </div>
     <h1>{{author.author_name}}</h1>
 
     <hr>

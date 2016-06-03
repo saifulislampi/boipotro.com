@@ -48,9 +48,12 @@
                     <a href="{{book.book_file.url}}" type="button" class="btn btn-info">Downlaod</a>
                     <br>
                 {% endif %}
-
                 <br>
                 {% ratings book %}
+                <br><br>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
+                    <i class="fa fa-facebook" aria-hidden="true"></i> শেয়ার করুন
+                </a>
 
             </div>
 

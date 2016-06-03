@@ -190,6 +190,7 @@ def checkout(request):
                      email.attach(book.item.book_file.name,book.item.book_file.read(),"application/epub")
 
                 res = email.send()
+                print(res)
                 if(res==1):
                     request.session["cart_id"] =None
                     context["msg"]="Your purchased books has been sent to your email address. Enjoy!"

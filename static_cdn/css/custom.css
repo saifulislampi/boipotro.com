@@ -1,3 +1,8 @@
+html {
+  font-family: 'Noto Sans Bengali UI', sans-serif;
+}
+
+
 
 #notification {
     position:fixed;
@@ -44,10 +49,9 @@
     position: fixed;
     padding-right: 10%;
     visibility: hidden;
-    z-index: 3000;
+    /*z-index: 3000;*/
 
 }
-
 
 
 /*For Box shadow effet*/
@@ -56,5 +60,21 @@ div.polaroid {
 
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: center;
-  padding: 40px;
+
 }
+
+div.image-container{
+    padding: 10px;
+}
+
+
+/*For footer */
+
+.bg-4 {
+      background-color: #2f2f2f; /* Black Gray */
+      color: #fff;
+  }
+  /*.container-fluid {
+      padding-top: 70px;
+      padding-bottom: 70px;
+  }*/
